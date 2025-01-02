@@ -14,7 +14,6 @@ class ViewController: UIViewController {
     @IBOutlet weak var secondOperandField: UITextField!
     
     @IBAction func selectOperator(_ sender: Any) {
-        
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         // 액션을 만드는 코드
@@ -49,28 +48,35 @@ class ViewController: UIViewController {
     
     
     @IBAction func calculateButton(_ sender: Any) {
-        
-        let a = Int(firstOperandField.text!)!
-        let b = Int(secondOperandField.text!)!
-        
-        let op = operatorButton.title(for: .normal)!
-        
-        if op == "+" {
-            let result = a + b
-            resultLabel.text = "\(result)" // String Interpolation
-        } else if op == "-" {
-            let result = a - b
-            resultLabel.text = "\(result)" // String Interpolation
-        } else if op == "*" {
-            let result = a * b
-            resultLabel.text = "\(result)" // String Interpolation
-        } else if op == "/" {
-            let result = a / b
-            resultLabel.text = "\(result)" // String Interpolation
-        } else {
-            print("연산자를 선택해주세요")
-            
+        guard let text = firstOperandField.text, let a = Int(text) else {
+            return
         }
+        
+        guard let text = secondOperandField.text, let b = Int(text) else {
+            return
+        }
+        
+        guard let op = operatorButton.title(for: .normal) else {
+            return
+        }
+        
+        var result: Int? = nil
+        
+        switch op {
+        case "+" :
+            result = a + b
+        case "-" :
+            result = a - b
+        case "*" :
+            result = a * b
+        case "/" :
+            result = a / b
+        default :
+            break
+        }
+        guard let result else { return }
+        
+        resultLabel.text = "\(result)"
     }
     
     override func viewDidLoad() {
